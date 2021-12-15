@@ -13,32 +13,36 @@ def part1(file):
             x2,y2 = [int(coord) for coord in second_coord.split(',')]
             points = []
             if x1 == x2: #vertical line
-                if y1 >= y2:
-                    start = y2
-                    stop = y1
-                else:
-                    start = y1
-                    stop = y2
+                start = min(y1,y2)
+                stop = max(y1,y2)
                 for i in range(start, stop + 1):
                     points.append((x1,i))
             elif y1 == y2: #horizontal line
-                if x1 >= x2:
-                    start = x2
-                    stop = x1
-                else:
-                    start = x1
-                    stop = x2
+                start = min(x1,x2)
+                stop = max(x1,x2)
                 for i in range(start, stop + 1):
                     points.append((i,y1))
+            else:
+                x_steps = x1 - x2
+                y_steps = y1 - y2
+                if x_steps >= 0:
+                    x_step = -1
+                else:
+                    x_step = 1
+                if y_steps >= 0:
+                    y_step = -1
+                else:
+                    y_step = 1
+                while(x1 != x2):
+                    points.append((x1, y1))
+                    x1 += x_step
+                    y1 += y_step
+                points.append((x1, y1))
             for point in points:
-                x,y = point
                 if point in plotted_points and point not in repeats:
                     multiples += 1
                     repeats.add(point)
                 plotted_points.add(point)
-                #grid[y][x] += 1
     print(multiples)
-    #for row in grid:
-    #    print(row)
 
 part1('./Day5/input.txt')
